@@ -130,12 +130,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<BookResult> data) {
             if (data != null) {
+                StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < data.size(); i++) {
                     Log.d("onPostExecute", data.get(i).toString());
+                    sb.append(data.get(i).toString() + "\n" + "------------------" + "\n");
                 }
 
                 TextView view = findViewById(R.id.txtResults);
-                view.setText("There were " + data.size() + " results.");
+               // view.setText("There were " + data.size() + " results.");
+                view.setText(sb.toString());
             }
             else {
                 TextView view = findViewById(R.id.txtResults);
