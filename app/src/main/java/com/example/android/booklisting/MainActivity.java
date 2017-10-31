@@ -129,11 +129,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<BookResult> data) {
-            for (int i=0;i < data.size();i++) {
-                Log.d("onPostExecute", data.get(i).toString());
+            if (data != null) {
+                for (int i = 0; i < data.size(); i++) {
+                    Log.d("onPostExecute", data.get(i).toString());
+                }
+
+                TextView view = findViewById(R.id.txtResults);
+                view.setText("There were " + data.size() + " results.");
             }
-            TextView view = findViewById(R.id.txtResults);
-            view.setText("There were " + data.size() + " results.");
+            else {
+                TextView view = findViewById(R.id.txtResults);
+                view.setText("No results found.");
+            }
         }
     }
 
