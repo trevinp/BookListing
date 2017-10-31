@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                     BookResult book = new BookResult(title, authors.getString(0), publishedDate);
                     books.add(book);
+                    //test
                 }
             }
             return books;
