@@ -1,5 +1,6 @@
 package com.example.android.booklisting;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -136,13 +136,16 @@ public class MainActivity extends AppCompatActivity {
                     sb.append(data.get(i).toString() + "\n" + "------------------" + "\n");
                 }
 
-                TextView view = findViewById(R.id.txtResults);
+               // TextView view = findViewById(R.id.txtResults);
                // view.setText("There were " + data.size() + " results.");
-                view.setText(sb.toString());
+               // view.setText(sb.toString());
+
+                Intent intent = new Intent(MainActivity.this, BookResultActivity.class);
+                startActivity(intent);
             }
             else {
-                TextView view = findViewById(R.id.txtResults);
-                view.setText("No results found.");
+               // TextView view = findViewById(R.id.txtResults);
+              //  view.setText("No results found.");
             }
         }
     }
