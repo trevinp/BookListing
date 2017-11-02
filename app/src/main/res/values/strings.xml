@@ -7,4 +7,7 @@
     <string name="search">SEARCH</string>
     <string name="no_matching_results">No results: enter a title search term</string>
     <string name="no_internet">No internet connection was detected.</string>
+    <string name="date_published">Date Published</string>
+    <string name="author">Author</string>
+    <string name="title">Title</string>
 </resources>

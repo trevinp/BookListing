@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String GOOGLE_BOOK_REQUEST_URL =
             "https://www.googleapis.com/books/v1/volumes?q=";
+    public static final int READ_TIMEOUT = 10000;
+    public static final int CONNECT_TIMEOUT = 15000;
 
     private static ArrayList<BookResult> mBookResults;
     private static ListView mListView;
@@ -148,21 +150,40 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<BookResult> books = new ArrayList<>();
         try {
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
+            JSONArray itemArray = null;
             // Get array holding the book items
-            JSONArray itemArray = baseJsonResponse.getJSONArray("items");
+            if(baseJsonResponse.has("items")){
+                itemArray = baseJsonResponse.getJSONArray("items");
+            }
 
             for (int i = 0; i < itemArray.length(); i++) {
                 if (itemArray.length() > 0) {
                     // Get book information and add to book list
+                    JSONObject volumeInfo = null;
+                    String title = null;
+                    JSONArray authors = null;
+                    String publishedDate = null;
                     JSONObject bookItem = itemArray.getJSONObject(i);
-                    JSONObject volumeInfo = bookItem.getJSONObject("volumeInfo");
-                    String title = volumeInfo.getString("title");
-                    JSONArray authors = volumeInfo.getJSONArray("authors");
-                    String publishedDate = volumeInfo.getString("publishedDate");
 
-                    BookResult book = new BookResult(title, authors.getString(0), publishedDate);
+                    if (bookItem.has("volumeInfo")) {
+                        volumeInfo = bookItem.getJSONObject("volumeInfo");
+                        if (volumeInfo.has("title")) {
+                            title = volumeInfo.getString("title");
+                        }
+                        if (volumeInfo.has("authors")) {
+                            authors = volumeInfo.getJSONArray("authors");
+                        }
+                        if (volumeInfo.has("publishedDate")) {
+                            publishedDate = volumeInfo.getString("publishedDate");
+                        }
+                    }
+
+                    String firstAuthor = null;
+                    if (authors != null) {
+                        authors.getString(0);
+                    }
+                    BookResult book = new BookResult(title, firstAuthor, publishedDate);
                     books.add(book);
-                    //test
                 }
             }
             return books;
@@ -196,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(READ_TIMEOUT /* milliseconds */);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT /* milliseconds */);
             urlConnection.connect();
 
             // If the request was successful (response code 200),
