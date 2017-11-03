@@ -5,30 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#C5AE96"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="com.example.android.booklisting.MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:textSize="14sp"
-        android:text="@string/instruction_string"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/instruction_string"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/txtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="@string/title_search_term"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:hint="@string/title_search_term"
+        android:padding="10dp" />
 
     <Button
         android:id="@+id/btnSearch"
@@ -39,25 +39,24 @@
         android:layout_marginTop="8dp"
         android:onClick="doSearch"
         android:text="@string/search"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textNoResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:gravity="center"
-        android:textStyle="bold"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/no_matching_results"
         android:textSize="16sp"
-        android:text="@string/no_matching_results"/>
+        android:textStyle="bold" />
 
 
     <ListView
+        android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list"
-        android:scrollbars="vertical">
-    </ListView>
+        android:scrollbars="vertical"></ListView>
 </LinearLayout>

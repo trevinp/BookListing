@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">Book Listing</string>
-    <string name="title_activity_book_result">BookResultActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Book List</string>
     <string name="instruction_string">Enter search title for Google Books</string>
     <string name="title_search_term">Title Search Term</string>
     <string name="search">SEARCH</string>

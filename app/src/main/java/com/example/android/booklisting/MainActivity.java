@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             "https://www.googleapis.com/books/v1/volumes?q=";
     public static final int READ_TIMEOUT = 10000;
     public static final int CONNECT_TIMEOUT = 15000;
+    public static final String MAX_RESULTS_20 = "&maxResults=20";
 
     private static ArrayList<BookResult> mBookResults;
     private static ListView mListView;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView tv = view.findViewById(R.id.bookTitle);
+                TextView tv = view.findViewById(R.id.book_title);
                 Toast.makeText(getApplicationContext(), "Title: " + tv.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -88,9 +89,7 @@ public class MainActivity extends AppCompatActivity {
         if (isNetworkAvailable()) {
             BookAsyncTask task = new BookAsyncTask();
             task.execute();
-        }
-        else
-        {
+        } else {
             ListView listView = findViewById(R.id.list);
             mAdapter = null;
             listView.setAdapter(null);
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         protected ArrayList<BookResult> doInBackground(URL... urls) {
             EditText search = findViewById(R.id.txtSearch);
             String searchTerm = search.getText().toString();
-            URL url = createUrl(GOOGLE_BOOK_REQUEST_URL + searchTerm + "&maxResults=10");
+            URL url = createUrl(GOOGLE_BOOK_REQUEST_URL + searchTerm + MAX_RESULTS_20);
 
             String jsonResponse = "";
             try {
@@ -130,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 ListView listView = findViewById(R.id.list);
                 listView.setAdapter(adapter);
                 mBookResults = data;
-            }
-            else {
+            } else {
                 ListView listView = findViewById(R.id.list);
                 mAdapter = null;
                 listView.setAdapter(null);
@@ -152,8 +150,11 @@ public class MainActivity extends AppCompatActivity {
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
             JSONArray itemArray = null;
             // Get array holding the book items
-            if(baseJsonResponse.has("items")){
+            if (baseJsonResponse.has("items")) {
                 itemArray = baseJsonResponse.getJSONArray("items");
+            }
+            if (itemArray == null) {
+                return null;
             }
 
             for (int i = 0; i < itemArray.length(); i++) {
@@ -178,21 +179,32 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    String firstAuthor = null;
+                    String allAuthors = null;
                     if (authors != null) {
-                        authors.getString(0);
+                        for (int j = 0; j < authors.length(); j++) {
+                            String author = authors.getString(j);
+                            if (!author.isEmpty()) {
+                                allAuthors = author;
+                            } else if (j == authors.length() - 1) {
+                                allAuthors = allAuthors + " and " + author;
+                            } else {
+                                allAuthors = allAuthors + ", " + author;
+                            }
+                        }
+                    } else {
+                        allAuthors = "Unknown";
                     }
-                    BookResult book = new BookResult(title, firstAuthor, publishedDate);
+                    BookResult book = new BookResult(title, allAuthors, publishedDate);
                     books.add(book);
                 }
             }
             return books;
-        }
-         catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }
         return null;
     }
+
     private URL createUrl(String stringUrl) {
         URL url;
         try {

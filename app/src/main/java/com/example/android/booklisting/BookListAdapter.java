@@ -30,13 +30,13 @@ public class BookListAdapter extends ArrayAdapter<BookResult> {
 
         BookResult currentBook = getItem(position);
 
-        TextView title = listItemView.findViewById(R.id.bookTitle);
+        TextView title = listItemView.findViewById(R.id.book_title);
         title.setText(currentBook.title);
 
-        TextView author = listItemView.findViewById(R.id.bookAuthor);
+        TextView author = listItemView.findViewById(R.id.book_author);
         author.setText(currentBook.author);
 
-        TextView pubDate = listItemView.findViewById(R.id.bookPublished);
+        TextView pubDate = listItemView.findViewById(R.id.book_published);
         pubDate.setText(currentBook.datePublished);
 
         return listItemView;
